@@ -47,7 +47,7 @@ function db(){
             return false
         }
     }
-    function removeTaskById(id: number){
+    function removeTaskById(id: number): false | any{
         try {
             data.map((tasks, i)=>{
                 if(tasks.id === id){
@@ -57,19 +57,24 @@ function db(){
                     tasks.children.splice(tasks.children.indexOf(id), 1)
                 }
             })
-            return true
+            return { message: "success"}
         } catch (error) {
             console.log(` Error trying to remove task  ` + error)
-            return false
+            return { message: "error"}
         }
     }
-    function getTaskById(id: number): Task{
-        let taskWithChild: Task = data.filter(task=>task.id === id)[0]
+    function getTaskById(id: number){
+        try {
+            let taskWithChild: Task = data.filter(task=>task.id === id)[0]
         
-        taskWithChild.children = getChildrenOf(taskWithChild.id)
-
-        console.log(taskWithChild)
-        return taskWithChild
+            taskWithChild.children = getChildrenOf(taskWithChild.id)
+    
+            console.log(taskWithChild)
+            return taskWithChild   
+        } catch (error) {
+            console.log(` Error trying to remove task  ` + error)
+            return { message: "error"}
+        }
     }
 
     return {
