@@ -1,15 +1,8 @@
 type Task = {
-    id: number;
+    id: number | undefined;
     name: string;
     description: string | undefined;
+    deadline: string | undefined;
     parent: number | undefined;
     children: number[] | Task[];
 }
-
-// type TaskWithChildren = {
-//     id: number;
-//     name: string;
-//     description: string | null;
-//     parent: number | null;
-//     children: Task[]
-// }

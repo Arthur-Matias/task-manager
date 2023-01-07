@@ -6,12 +6,15 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Task>
 ) {
-  if(req.method === "GET"){
-      let slug = req.query.slug
-      let data = db.getTaskById(Number(slug));
+    let slug = req.query.slug
+    if(req.method === "GET"){
+        let data = db.getTaskById(Number(slug));
 
-    res.status(200).json(data);
-  }else{
-    res.status(404)
-  }
+        res.status(200).json(data);
+    }else if (req.method === "DELETE"){
+        db.removeTaskById(Number(slug))
+        res.status(200)
+    }else{
+        res.status(404)
+    }
 }
