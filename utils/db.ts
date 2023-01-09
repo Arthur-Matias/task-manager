@@ -1,16 +1,20 @@
-// import { Task, TaskSimplified } from "./types/task"
+// import { Task, Task } from "./types/task"
+
+import Task from "./models/Task";
+import { taskProps } from "./types/task";
 
 function db(){
 
-    let data: TaskSimplified[] = [
+    let data:Task[] = [
         {
             id: 0,
             description: "",
             name: "Task1",
-            parent: undefined,
+            parent: NaN,
             deadline: "",
             isDone: false,
-            children: [2, 1]
+            childrenSimplified: [2, 1],
+            children: []
         },
         {
             id: 1,
@@ -19,7 +23,8 @@ function db(){
             parent: 0,
             deadline: "",
             isDone: true,
-            children: []
+            children: [],
+            childrenSimplified: [],
         },
         {
             id: 2,
@@ -27,6 +32,7 @@ function db(){
             name: "Task3",
             parent: 0,
             children: [],
+            childrenSimplified: [],
             isDone: false,
             deadline: "",
         },
@@ -35,8 +41,10 @@ function db(){
             description: "",
             name: "Task4",
             children: [],
+            childrenSimplified: [],
             isDone: false,
             deadline: "",
+            parent: NaN
         },
         {
             id: 4,
@@ -44,6 +52,7 @@ function db(){
             name: "Task5",
             parent: 3,
             children: [],
+            childrenSimplified: [],
             isDone: false,
             deadline: "",
         },
@@ -53,6 +62,7 @@ function db(){
             name: "Task6",
             parent: 3,
             children: [],
+            childrenSimplified: [],
             isDone: false,
             deadline: "",
         },
@@ -61,8 +71,10 @@ function db(){
             description: "",
             name: "Task6",
             children: [],
+            childrenSimplified: [],
             isDone: false,
             deadline: "",
+            parent: NaN
         },
         {
             id: 7,
@@ -70,6 +82,7 @@ function db(){
             name: "Task6",
             parent: 6,
             children: [],
+            childrenSimplified: [],
             isDone: true,
             deadline: "",
         },
@@ -79,6 +92,7 @@ function db(){
             name: "Task6",
             parent: 6,
             children: [],
+            childrenSimplified: [],
             isDone: true,
             deadline: "",
         },
@@ -88,16 +102,16 @@ function db(){
             name: "Task6",
             parent: 6,
             children: [],
+            childrenSimplified: [],
             isDone: false,
             deadline: "",
         },
     ]
-
-    function getData(): TaskSimplified[]{
+    function getData():Task[]{
         return data
     }
-    function getChildrenOf(id: number): Task[]{
-        let children: Task[] = [];
+    function getChildrenOf(id: number):Task[]{
+        let children:Task[] = [];
         data.map(task=>{
             if(task.parent === id){
                 children.push(task)
@@ -112,52 +126,70 @@ function db(){
         })
         return initialTasks
     }
-    function addTask(task: Task){
+    function addTask(task:taskProps):Task{
+        let newTask: Task = new Task({id: data.length, name: ""});
         try {
             task.id = data.length;
 
             if(task.parent){
-                data[task.parent].children.push(task.id)
+                data[task.parent].childrenSimplified.push(task.id)
             }
             if(!task.children){
                 task.children = []
             }
-            data.push(task)
-            return true
+            newTask = new Task(task)
+            data.push(newTask)
+            return newTask
         } catch (error) {
             console.log(` Error trying to add task  ` + error)
-            return false
+            return newTask
         }
     }
-    function removeTaskById(id: number): TaskSimplified {
-        let copy: TaskSimplified = {id: 0, name:""};
+    function removeTaskById(id: number):Task {
+        let copy:Task = new Task({id: data.length, name: ""});
         try {
             data.map((task, i)=>{
                 copy = task
                 if(task.id === id){
                     data.splice(i, 1)
                 }
-                if(task.children?.includes(id)){
-                    task.children.splice(task.children.indexOf(id), 1)
+                if(task.childrenSimplified.includes(id)){
+                    task.childrenSimplified.splice(task.childrenSimplified.indexOf(id), 1)
                 }
             })
+            return copy
         } catch (error) {
             console.log(` Error trying to remove task  ` + error)
             return copy
         }
-        return copy
     }
-    function getTaskById(id: number){
+    function getTaskById(id: number): Task{
+        let taskWithChild:Task = new Task({id, name: ""});
         try {
-            let taskWithChild: Task = data.filter(task=>task.id === id)[0]
-        
+            let filtered = data.filter(task=>task.id === id)[0]
+            taskWithChild = new Task(filtered)
+            filtered.childrenSimplified.map(child=>{
+                filtered.children.push(data[child])
+            })
             taskWithChild.children = getChildrenOf(taskWithChild.id)
     
             console.log(taskWithChild)
             return taskWithChild   
         } catch (error) {
             console.log(` Error trying to remove task  ` + error)
-            return { message: "error"}
+            return taskWithChild
+        }
+    }
+    function modifyTask(id: number, props: taskProps): Task{
+        let modifiedTask: Task = new Task({id, name: ""})
+
+        try {
+            data[id] = new Task(props);
+            modifiedTask = data[id];
+            return modifiedTask;
+        } catch (error) {
+            console.log(` Error trying to modify task  ` + error)
+            return modifiedTask
         }
     }
 
@@ -167,7 +199,8 @@ function db(){
         addTask,
         removeTaskById,
         getTaskById,
-        getInitialData
+        getInitialData,
+        modifyTask
     }
 }
 

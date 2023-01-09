@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.scss'
 import Card from '../components/Card.component'
 import Tasks from '../components/Tasks.component'
 import { useEffect, useState } from 'react'
+import Task from '../utils/models/Task'
 
 export default function Home() {
   const tasksUrl = "/api/tasks/initial"

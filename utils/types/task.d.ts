@@ -1,19 +1,12 @@
-type Task = {
-    id: number;
-    name: string;
-    description?: string;
-    deadline?: string;
-    parent?: number;
-    isDone?: boolean;
-    children?: TaskSimplified[];
-}
+import Task from "../models/Task"
 
-type TaskSimplified = {
+export type taskProps = {
     id: number;
     name: string;
     description?: string;
     deadline?: string;
     parent?: number;
     isDone?: boolean;
-    children?: number[];
+    children?: Task[];
+    childrenSimplified?: number[];
 }

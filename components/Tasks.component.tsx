@@ -1,11 +1,11 @@
 import styles from '../styles/Tasks.module.scss'
-import { ScriptProps } from 'next/script'
-import { useEffect, useState } from 'react';
+import { taskProps } from '../utils/types/task';
+
 type Props = {
-    tasks: Task[]
+    tasks: taskProps[]
 }
 export default function Tasks({tasks}: Props) {
-    function getPercentage(task: Task): number{
+    function getPercentage(task: taskProps): number{
         let counter = 0;
         task.children?.map(child=>{
             if(child.isDone){
@@ -23,7 +23,7 @@ export default function Tasks({tasks}: Props) {
                 <p>Deadline</p>
                 <p>Completion</p>
             </div>
-            {tasks.map((task: Task, index: number)=>{
+            {tasks.map((task: taskProps, index: number)=>{
             let color = getPercentage(task)?getPercentage(task)>50?"green":"yellow":"red"    
             return (
                <li>
