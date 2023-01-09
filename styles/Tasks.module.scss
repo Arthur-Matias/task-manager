@@ -1,0 +1,50 @@
+.tasks{
+    height: 90%;
+    width: 90%;
+    // background-color: white;
+    margin: 1rem;
+    color: var(--accent-dark);
+    >ul{
+        list-style-type: none;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        >h2{
+            margin-bottom: 2rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
+        >li{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-top: 2px solid var(--bg);
+            >p:first-of-type{
+                margin-left: 2rem;
+            }
+            >p:last-of-type{
+                margin-right: 2rem;
+            }
+            
+        }
+    }
+}
+
+.categories{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bolder;
+    text-transform: uppercase;
+    >p:first-of-type{
+        margin-left: 2rem;
+    }
+    >p:last-of-type{
+        margin-right: 2rem;
+    }
+}

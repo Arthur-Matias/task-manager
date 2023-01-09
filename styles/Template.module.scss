@@ -1,0 +1,27 @@
+.main{
+  background-color: var(--bg);
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: grid;
+
+  grid-template-rows: 1fr 9fr;
+  grid-template-columns: 1fr;
+
+  > header{
+    background-color: var(--bg-dark);
+    grid-row: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10vw;
+  }
+}
+.content{
+  height: 100%;
+  width: 100%;
+  position: static;
+  background-color: var(--bg);
+  // grid-row: 1;
+}
