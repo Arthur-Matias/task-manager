@@ -20,7 +20,7 @@ export default function Tasks({tasks, handleClick}: Props) {
   return (
     <div className={styles.tasks}>
         <ul>
-            <h2>Main Tasks</h2>
+            <h2>{tasks.name}</h2>
             <div className={styles.categories}>
                 <div></div>
                 <div>

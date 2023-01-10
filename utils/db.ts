@@ -14,10 +14,14 @@ function db(){
         new Task({id:5, name:"Task6", childrenSimplified:[], deadline:new Date().toJSON(), description:"",isDone:false,parent:1}),
     ]
     function getChildrenOf(id: number):Task{
-        let taskWithChildren:Task = data.filter(task=>task.id === id)[0];
+        let tempData = data.find(task=>task.id === id)
+        let taskWithChildren:Task = tempData?tempData:new Task({
+            id: NaN,
+            parent: NaN,
+        });
         
         data.map(task=>{
-            if(task.parent === id && !isNaN(task.id)){
+            if(task.parent === id && !isNaN(task.id) && taskWithChildren.children.indexOf(task)<0){
                 taskWithChildren.children.push(task)
             }
         })
