@@ -1,10 +1,13 @@
 import styles from '../styles/Tasks.module.scss'
+import Task from '../utils/models/Task';
 import { taskProps } from '../utils/types/task';
+import TaskItem from './TaskItem.component';
 
 type Props = {
-    tasks: taskProps[]
+    tasks: Task;
+    handleClick: (id:number)=>void;
 }
-export default function Tasks({tasks}: Props) {
+export default function Tasks({tasks, handleClick}: Props) {
     function getPercentage(task: taskProps): number{
         let counter = 0;
         task.children?.map(child=>{
@@ -19,18 +22,22 @@ export default function Tasks({tasks}: Props) {
         <ul>
             <h2>Main Tasks</h2>
             <div className={styles.categories}>
-                <p>Task</p>
-                <p>Deadline</p>
-                <p>Completion</p>
+                <div></div>
+                <div>
+                    <p>Task</p>
+                    <p>Deadline</p>
+                    <p>Completion</p>
+                </div>
+                <div>
+
+                </div>
             </div>
-            {tasks.map((task: taskProps, index: number)=>{
-            let color = getPercentage(task)?getPercentage(task)>50?"green":"yellow":"red"    
+            {tasks.children.map((task: Task, index: number)=>{
+            let color = getPercentage(task)?getPercentage(task)>50?"green":"yellow":"red";
             return (
-               <li>
-                    <p>{task.name}</p>
-                    <p>{task.deadline}</p>
-                    <p className={color}>{getPercentage(task)}%</p>
-               </li> 
+               <li key={"task-item"+index}>
+                    <TaskItem color={color} handleClick={handleClick} task={task} key={"task-item"+index}/>
+               </li>
             )})}
         </ul>
     </div>
