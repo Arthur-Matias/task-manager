@@ -26,7 +26,7 @@ export default function TaskItem({task, handleClick, color}: Props) {
         setDisplayChildren(!displayChildren)
     }
   return (
-        <div className={styles.taskItem} onClick={()=>handleItemClick()}>
+        <div className={styles.taskItem} >
             <div className={styles.wrapper}>
                 <div className={styles.section}>
                     <input type="checkbox" name={task.name+task.id} id="completed" checked={task.isDone} />
@@ -35,7 +35,7 @@ export default function TaskItem({task, handleClick, color}: Props) {
                     <p className={color}>{getPercentage(task)}%</p>
                 </div>
                 <div className={styles.section}>
-                    <p>See more...</p>
+                    <a onClick={()=>handleItemClick()}>See more...</a>
                     <p>i</p>
                     <p>i</p>
                 </div>

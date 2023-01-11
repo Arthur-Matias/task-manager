@@ -4,12 +4,6 @@
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
   grid-template-rows: 1fr 8fr 1fr;
-  grid-template-areas: 
-      'margin margin margin margin margin'
-      'margin tasks calendar calendar margin'
-      'margin tasks chart stats margin'
-      'margin tasks chart stats2 margin'
-      'margin margin margin margin margin';
   grid-row-gap: 1rem;
   grid-column-gap: 1rem;
 }
@@ -17,24 +11,5 @@
   grid-area: tasks;
   grid-column: 2 / 3;
   grid-row: 2 / 3;
-}
-.calendar{
-  grid-area: calendar;
-  grid-column: 3 / 5;
-  grid-row: 2 / 3;
-}
-.chart{
-  grid-area: chart;
-  grid-column: 3 / 4;
-  grid-row: 3 / 5;
-}
-.stats{
-  grid-area: stats;
-  grid-column: 4 / 4;
-  grid-row: 3 / 4;
-}
-.stats2{
-  grid-area: stats2;
-  grid-column: 4 / 4;
-  grid-row: 4 / 5;
+  height: 100%;
 }

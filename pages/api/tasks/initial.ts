@@ -11,6 +11,9 @@ export default function handler(
     let data;
     if(req.method === "GET"){
         data = db.getInitialData();
+        console.log("---------------------------------")
+        console.log(data)
+        console.log("---------------------------------")
         res.status(200).json(data);
     }else{
         res.status(404).json(data)

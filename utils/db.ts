@@ -4,40 +4,36 @@ import Task from "./models/Task";
 import { taskProps } from "./types/task";
 
 function db(){
-
+    let date = new Date()
     let data:Task[] = [
-        new Task({id:0, name:"Task1", childrenSimplified:[2,3], deadline:new Date().toJSON(), description:"",isDone:false,parent:NaN}),
-        new Task({id:1, name:"Task2", childrenSimplified:[4,5], deadline:new Date().toJSON(), description:"",isDone:false,parent:NaN}),
-        new Task({id:2, name:"Task3", childrenSimplified:[], deadline:new Date().toJSON(), description:"",isDone:false,parent:0}),
-        new Task({id:3, name:"Task4", childrenSimplified:[], deadline:new Date().toJSON(), description:"",isDone:false,parent:0}),
-        new Task({id:4, name:"Task5", childrenSimplified:[], deadline:new Date().toJSON(), description:"",isDone:false,parent:1}),
-        new Task({id:5, name:"Task6", childrenSimplified:[], deadline:new Date().toJSON(), description:"",isDone:false,parent:1}),
+        new Task({id:0, name:"Task1", childrenSimplified:[2,3], deadline:date.toJSON(), description:"",isDone:false,parent:NaN}),
+        new Task({id:1, name:"Task2", childrenSimplified:[4,5], deadline:date.toJSON(), description:"",isDone:false,parent:NaN}),
+        new Task({id:2, name:"Task3", childrenSimplified:[], deadline:date.toJSON(), description:"",isDone:false,parent:0}),
+        new Task({id:3, name:"Task4", childrenSimplified:[], deadline:date.toJSON(), description:"",isDone:false,parent:0}),
+        new Task({id:4, name:"Task5", childrenSimplified:[], deadline:date.toJSON(), description:"",isDone:false,parent:1}),
+        new Task({id:5, name:"Task6", childrenSimplified:[], deadline:date.toJSON(), description:"",isDone:false,parent:1}),
     ]
-    function getChildrenOf(id: number):Task{
-        let tempData = data.find(task=>task.id === id)
-        let taskWithChildren:Task = tempData?tempData:new Task({
-            id: NaN,
-            parent: NaN,
-        });
-        
+    function getChildrenOf(id: number):Task[]{
+        let children: Task[] = []
+
         data.map(task=>{
-            if(task.parent === id && !isNaN(task.id) && taskWithChildren.children.indexOf(task)<0){
-                taskWithChildren.children.push(task)
+            if(task.parent === id && !isNaN(task.id) && children.indexOf(task)<0){
+                children.push(task)
             }
         })
-        return taskWithChildren
+        return children
     }
     function getInitialData():Task{
         let initialTasks = data.filter(task=>isNaN(task.parent))
-        console.log(initialTasks)
+        // console.log(initialTasks)
         initialTasks.forEach(task=>{
-            task = getChildrenOf(task.id)
+            task.children = getChildrenOf(task.id)
         })
         return new Task({
             id:NaN,
             name:"Main Tasks",
             children: initialTasks,
-            childrenSimplified: [...initialTasks.map(task=>task.id)],
+            childrenSimplified: [...new Set(initialTasks.map(task=>task.id))],
             parent: NaN
         })
     }
@@ -79,8 +75,9 @@ function db(){
         let taskWithChild:Task = new Task({id:NaN, name:"", parent: NaN})
         
         try{
-            taskWithChild = getChildrenOf(id)
-            console.log(taskWithChild)
+            taskWithChild = data.filter(task=>task.id === id)[0]
+            taskWithChild.children = getChildrenOf(id)
+            // console.log(taskWithChild)
             return taskWithChild   
         } catch (error) {
             console.log(` Error trying to remove task  ` + error)

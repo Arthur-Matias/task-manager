@@ -1,5 +1,5 @@
 import { Children, useState } from 'react';
-import styles from '../styles/TaskItem.module.scss'
+import styles from '../styles/TaskChildren.module.scss'
 import Task from '../utils/models/Task';
 import { taskProps } from '../utils/types/task';
 
@@ -19,9 +19,9 @@ export default function TaskChildren({task, handleClick}: Props) {
                         <div className={styles.childrenSection}>
                             <input type="checkbox" name={child.name+child.id} id="completed" checked={child.isDone} />
                             <p>{child.name}</p>
-                            <p>{child.deadline}</p>
+                            <p>{new Date(child.deadline).toDateString()}</p>
                         </div>
-                        <div className={styles.section}>
+                        <div className={styles.childrenSection}>
                             <p onClick={()=>handleChildrenClick()}>See more...</p>
                             <p>i</p>
                             <p>i</p>
